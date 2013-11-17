@@ -4,6 +4,9 @@
   "description": "Saves a URL response to Amazon S3",
   "repository": "https://github.com/adamalex/docker-urlarchiver",
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "request": "~2.27.0",
     "awssum": "~1.1.1",

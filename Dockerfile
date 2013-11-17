@@ -2,20 +2,19 @@ FROM        ubuntu:12.10
 
 MAINTAINER  Adam Alexander, adamalex@gmail.com
 
-# INSTALL OS DEPENDENCIES
-RUN         apt-get update
-RUN         apt-get install -y curl git
+# INSTALL OS DEPENDENCIES AND NODE.JS
+RUN         apt-get update; apt-get install -y software-properties-common g++ make
+RUN         add-apt-repository -y ppa:chris-lea/node.js
+RUN         apt-get update; apt-get install -y nodejs=0.10.22-1chl1~quantal1
 
-# INSTALL NVM WITH LATEST NODE 0.10
-RUN         curl https://raw.github.com/creationix/nvm/master/install.sh | HOME=/root sh
-RUN         echo "[[ -s /root/.nvm/nvm.sh ]] && . /root/.nvm/nvm.sh" > /etc/profile.d/nvm.sh
-RUN         bash -l -c "nvm install 0.10"
-RUN         bash -l -c "nvm alias default 0.10"
+# COMMIT APP FILES
+ADD         package.json /root/
+ADD         app.js /root/
 
-# COMMIT THE CONTAINING PROJECT FILES
-ADD         . /root
+# INSTALL APP DEPENDENCIES
+RUN         cd /root; npm install
 
-# EXECUTE APP.JS BY DEFAULT
+# EXECUTE NPM START BY DEFAULT
 WORKDIR     /root
-ENTRYPOINT  ["/bin/bash"]
-CMD         ["-l", "-c", "node app.js"]
+ENTRYPOINT  ["/usr/bin/npm"]
+CMD         ["start"]

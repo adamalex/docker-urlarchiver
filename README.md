@@ -72,9 +72,6 @@ Should you want to customize the Dockerfile or the script itself, or just feel s
 can follow the below instructions to build your own image.
 
 ```bash
-# Install NPM dependencies to include inside the image
-$ npm install
-
 # Build the image
 $ docker build -t="yourname/imagename" .
 
